@@ -18,7 +18,7 @@ size_t set_cookies_callback( void* vdatap, size_t size, size_t nmemb, void* user
 	if (line == datap)
 	{
 		line += 12;
-		endline = strstr( line, ";" ) + 2;
+		endline = strstr( line, ";" );
 		length = endline - line;
 		endline[0] = 0;
 		int i = line[0] == 'X' ? 0 :
