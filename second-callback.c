@@ -7,8 +7,8 @@ size_t second_post_callback( void* vdatap, size_t size, size_t nmemb, void* user
 	return nmemb;
 }
 
-size_t do_second_request( const char* cookies,
-			  const char* token, char** p_cookies_csv )
+void do_second_request( const char* cookies,
+			const char* token, char** a_cookie )
 {
 	CURLcode res;
 	CURL* handle;
@@ -29,7 +29,7 @@ size_t do_second_request( const char* cookies,
 	curl_easy_setopt( handle, CURLOPT_HTTPHEADER, chunk );
 	curl_easy_setopt( handle, CURLOPT_WRITEFUNCTION, second_post_callback );
 	curl_easy_setopt( handle, CURLOPT_HEADERFUNCTION, set_cookies_callback );
-	curl_easy_setopt( handle, CURLOPT_HEADERDATA, p_cookies_csv );
+	curl_easy_setopt( handle, CURLOPT_HEADERDATA, a_cookie );
 	char postfields [512];
 	sprintf( postfields, "_token=%s"
 		 "&term=202220&campusFilter%5B%5D=O"
@@ -46,5 +46,4 @@ size_t do_second_request( const char* cookies,
 	if (res != CURLE_OK) printf("error %d\n%s\n", res, errbuf);
 	curl_easy_cleanup(handle);
 	printf("h");
-	return 0;
 }

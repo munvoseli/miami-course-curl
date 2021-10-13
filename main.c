@@ -6,6 +6,7 @@
 #define TOKEN_BYTES 41
 #define TOKEN_LEN 40
 #define VERBOSE_CURL
+#define printf(a...)
 
 char* get_token( char* html )
 {

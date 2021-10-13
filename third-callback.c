@@ -36,8 +36,8 @@ char* get_postfields( ) // from out.html
 	char* token, *term, *results;
 	char* begin, *end;
 	unsigned int length;
-	// token=&term=&resultsTermCrns=0
-	unsigned int total_length = 30;
+	// _token=&term=&resultsTermCrns=&exportCsv=0
+	unsigned int total_length = 42;
 	begin = strstr( html, "id=\"exportForm\"" ); // to form
 	
 	begin = strstr( begin, "value" ) + 7;
@@ -65,14 +65,14 @@ char* get_postfields( ) // from out.html
 	total_length += length;
 
 	char* endstr = calloc(total_length, 1);
-	sprintf(endstr, "token=%s&term=%s&resultsTermCrns=%s", token, term, results);
+	sprintf(endstr, "_token=%s&term=%s&resultsTermCrns=%s&exportCsv=", token, term, results);
 	
 	free(html);
 	
 	return endstr;
 }
 
-size_t do_third_request( char* cookies )
+void do_third_request( char* cookies )
 {
 	CURLcode res;
 	CURL* handle;
@@ -101,6 +101,5 @@ size_t do_third_request( char* cookies )
 	if (res != CURLE_OK) printf("error %d\n%s\n", res, errbuf);
 	curl_easy_cleanup(handle);
 	free(postfields);
-	return 0;
 }
 
