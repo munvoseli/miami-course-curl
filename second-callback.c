@@ -44,7 +44,6 @@ size_t do_second_request( const char* cookies,
 	fclose(outfile);
 	res = curl_easy_perform(handle);
 	if (res != CURLE_OK) printf("error %d\n%s\n", res, errbuf);
-	(*p_cookies_csv)[strlen(*p_cookies_csv) - 2] = 0;
 	curl_easy_cleanup(handle);
 	printf("h");
 	return 0;

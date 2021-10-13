@@ -20,31 +20,49 @@ char* get_token( char* html )
 	return begin;
 }
 
+char* cookie_array_to_cookies( char* a_cookie [3] )
+{
+	int length =
+		strlen(a_cookie[0]) +
+		strlen(a_cookie[1]) +
+		strlen(a_cookie[2]) + 13;
+	char* str = malloc(length + 1);
+	str[length] = 0;
+	sprintf(str, "Cookie: %s; %s; %s", a_cookie[0], a_cookie[1], a_cookie[2]);
+	return str;
+}
+
 #include "first-callback.c"
 #include "second-callback.c"
 #include "third-callback.c"
 
 int main( int argc, char** argv )
 {
-	char* a_cookie_sec [3];
-	char* cookies_second = malloc(10);
-	char* cookies_csv = malloc(10);
-	sprintf( cookies_second, "Cookie: " );
-	sprintf( cookies_csv, "Cookie: " );
+	char* a_cookie [3];
+	char* cookies_second;
+	char* cookies_csv;
 	char* formtoken_second = malloc(TOKEN_BYTES);
 	char* formtoken_csv = malloc(TOKEN_BYTES);
 
 	curl_global_init( CURL_GLOBAL_ALL );
-	do_first_request( &a_cookie_sec, &formtoken_second );
+	
+	do_first_request( a_cookie, &formtoken_second );
+	cookies_second = cookie_array_to_cookies(a_cookie);
+	
 	printf("\n\nHHHHHHHHHHHHHHHH\n\n");
-	//printf("%s\n%s\n", cookies, formtoken);
-	do_second_request( cookies_second, formtoken_second, &cookies_csv );
+	
+	do_second_request( cookies_second, formtoken_second, a_cookie );
+	cookies_csv = cookie_array_to_cookies(a_cookie);
+	
 	printf("\n\nIIIIIIIIIIIIIIII\n\n");
 	printf("%s\n\nToken page: %s\n\n%s\n\n", cookies_second, formtoken_second, cookies_csv);
-	put_bb( cookies_second, &cookies_csv ); // probably should've designed a better system earlier
+	
 	do_third_request( cookies_csv );
 	
 	// cleanup
+	free(a_cookie[0]);
+	free(a_cookie[1]);
+	free(a_cookie[2]);
 	free(cookies_second);
 	free(cookies_csv);
 	free(formtoken_second);
