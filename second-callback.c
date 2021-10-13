@@ -8,7 +8,9 @@ size_t second_post_callback( void* vdatap, size_t size, size_t nmemb, void* user
 }
 
 void do_second_request( const char* cookies,
-			const char* token, char** a_cookie )
+			const char* token,
+			char** a_cookie,
+			const char* letters, const char* number)
 {
 	CURLcode res;
 	CURL* handle;
@@ -33,12 +35,12 @@ void do_second_request( const char* cookies,
 	char postfields [512];
 	sprintf( postfields, "_token=%s"
 		 "&term=202220&campusFilter%5B%5D=O"
-		 "&subject%5B%5D=CSE"
-		 "&courseNumber=271"
+		 "&subject%5B%5D=%s"
+		 "&courseNumber=%s"
 		 "&openWaitlist=&crnNumber="
 		 "&level=&courseTitle=&instructor=&instructorUid="
 		 "&creditHours=&startEndTime%5B%5D="
-		 "&startEndTime%5B%5D=&courseSearch=", token );
+		 "&startEndTime%5B%5D=&courseSearch=", token, letters, number );
 	curl_easy_setopt( handle, CURLOPT_POSTFIELDS, postfields);
 	FILE* outfile = fopen( "out.html", "w" );
 	fclose(outfile);

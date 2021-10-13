@@ -5,7 +5,7 @@
 
 #define TOKEN_BYTES 41
 #define TOKEN_LEN 40
-#define VERBOSE_CURL
+//#define VERBOSE_CURL
 #define printf(a...)
 
 char* get_token( char* html )
@@ -52,7 +52,8 @@ int main( int argc, char** argv )
 	
 	printf("\n\nHHHHHHHHHHHHHHHH\n\n");
 	
-	do_second_request( cookies_second, formtoken_second, a_cookie );
+	do_second_request( cookies_second, formtoken_second, a_cookie,
+			   argv[1], argv[2]);
 	cookies_csv = cookie_array_to_cookies(a_cookie);
 	
 	printf("\n\nIIIIIIIIIIIIIIII\n\n");
