@@ -77,7 +77,7 @@ unsigned int* get_csv_bounds( )
 	{
 		//printf("%d %d  ", a_bound[i], a_bound[i + 1]);
 		unsigned int diff = a_bound[i + 1] - a_bound[i];
-		if ( diff > 100 )
+		if ( diff > 50 )
 		{
 			char* str = malloc(1 + diff);
 			str[diff] = 0;
