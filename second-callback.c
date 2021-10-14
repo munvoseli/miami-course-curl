@@ -21,7 +21,7 @@ void do_second_request( const char* cookies,
 		printf("H\n");
 	
 	// Do the second call (post)
-	curl_easy_setopt( handle, CURLOPT_URL, "https://www.apps.miamioh.edu/courselist/" );
+	curl_easy_setopt( handle, CURLOPT_URL, "https://www.apps.miamioh.edu/courselist/#" );
 	struct curl_slist* chunk = NULL;
 	chunk = curl_slist_append( chunk, cookies );
 	#ifdef VERBOSE_CURL
@@ -47,5 +47,4 @@ void do_second_request( const char* cookies,
 	res = curl_easy_perform(handle);
 	if (res != CURLE_OK) printf("error %d\n%s\n", res, errbuf);
 	curl_easy_cleanup(handle);
-	printf("h");
 }

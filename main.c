@@ -6,7 +6,7 @@
 #define TOKEN_BYTES 41
 #define TOKEN_LEN 40
 //#define VERBOSE_CURL
-#define printf(a...)
+//#define printf(a...)
 
 char* get_token( char* html )
 {
@@ -36,9 +36,15 @@ char* cookie_array_to_cookies( char* a_cookie [3] )
 #include "first-callback.c"
 #include "second-callback.c"
 #include "third-callback.c"
+#include "csv-reading.c"
 
 int main( int argc, char** argv )
 {
+	if (argc != 3)
+	{
+		printf("amount of arguments not good\n");
+		return 0;
+	}
 	char* a_cookie [3];
 	char* cookies_second;
 	char* cookies_csv;
@@ -50,16 +56,19 @@ int main( int argc, char** argv )
 	do_first_request( a_cookie, &formtoken_second );
 	cookies_second = cookie_array_to_cookies(a_cookie);
 	
-	printf("\n\nHHHHHHHHHHHHHHHH\n\n");
+	//printf("\n\nHHHHHHHHHHHHHHHH\n\n");
 	
 	do_second_request( cookies_second, formtoken_second, a_cookie,
 			   argv[1], argv[2]);
 	cookies_csv = cookie_array_to_cookies(a_cookie);
 	
-	printf("\n\nIIIIIIIIIIIIIIII\n\n");
-	printf("%s\n\nToken page: %s\n\n%s\n\n", cookies_second, formtoken_second, cookies_csv);
+	//printf("\n\nIIIIIIIIIIIIIIII\n\n");
+	//printf("%s\n\nToken page (%d): %s\n\n%s\n\n", cookies_second, strlen(formtoken_second), formtoken_second, cookies_csv);
 	
 	do_third_request( cookies_csv );
+
+	//unsigned int* things = get_column_ends();
+	get_csv_bounds();
 	
 	// cleanup
 	free(a_cookie[0]);
