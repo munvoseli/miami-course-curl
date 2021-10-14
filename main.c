@@ -65,10 +65,10 @@ int main( int argc, char** argv )
 	//printf("\n\nIIIIIIIIIIIIIIII\n\n");
 	//printf("%s\n\nToken page (%d): %s\n\n%s\n\n", cookies_second, strlen(formtoken_second), formtoken_second, cookies_csv);
 	
-	do_third_request( cookies_csv );
+	do_third_request( cookies_csv ) || get_csv_bounds();
 
 	//unsigned int* things = get_column_ends();
-	get_csv_bounds();
+	
 	
 	// cleanup
 	free(a_cookie[0]);

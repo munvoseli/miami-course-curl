@@ -36,6 +36,8 @@ char* get_postfields( ) // from out.html
 	// _token=&term=&resultsTermCrns=&exportCsv=0
 	unsigned int total_length = 43;
 	begin = strstr( html, "id=\"exportForm\"" ); // to form
+	if (!begin)
+		return NULL;
 	
 	begin = strstr( begin, "value" ) + 7;
 	end = strstr( begin, "\"" );
@@ -69,8 +71,14 @@ char* get_postfields( ) // from out.html
 	return endstr;
 }
 
-void do_third_request( char* cookies )
+int do_third_request( char* cookies )
 {
+	char* postfields = get_postfields();
+	if (!postfields)
+	{
+		printf("Couldn't find class this term\n");
+		return 1;
+	}
 	CURLcode res;
 	CURL* handle;
 	char errbuf [CURL_ERROR_SIZE];
@@ -89,7 +97,6 @@ void do_third_request( char* cookies )
 	chunk = curl_slist_append( chunk, cookies );
 	curl_easy_setopt( handle, CURLOPT_HTTPHEADER, chunk );
 	curl_easy_setopt( handle, CURLOPT_WRITEFUNCTION, third_post_callback );
-	char* postfields = get_postfields();
 	//printf("%s\n\n", postfields);
 	curl_easy_setopt( handle, CURLOPT_POSTFIELDS, postfields);
 	FILE* outfile = fopen( "out.csv", "w" );
@@ -98,5 +105,6 @@ void do_third_request( char* cookies )
 	if (res != CURLE_OK) printf("error %d\n%s\n", res, errbuf);
 	curl_easy_cleanup(handle);
 	free(postfields);
+	return 0;
 }
 
